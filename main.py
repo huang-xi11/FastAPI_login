@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from fastapi.responses import FileResponse   #File che contiene le risposte per le varie pagine
 from fastapi.staticfiles import StaticFiles  #File statico
+import pandas as pd
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -17,5 +18,12 @@ def controlla(username: str, password: str):
     else:
         risposta = {"messaggio" : 0}
     return(risposta)
+
+@app.post("/login")
+def Controlla(username: str = Form(...), password: str = Form(...)):
+    if username.lower() == "admin" and password == "xxx123##":
+        return {"messaggio": 1}
+    else:
+        return {"messaggio": 0}
 
 
