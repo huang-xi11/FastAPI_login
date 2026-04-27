@@ -59,7 +59,7 @@ async function loggatiPandas() {
         body: `username=${username}&password=${password}`
     });
 
-        const json = await res.json();
+    const json = await res.json();
 
     if (json.messaggio == 1){
         document.getElementById("risultato").innerText = "Accesso effettuato";
