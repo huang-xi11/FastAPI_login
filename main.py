@@ -4,6 +4,11 @@ from fastapi.staticfiles import StaticFiles  #File statico
 import pandas as pd
 
 app = FastAPI()
+try:
+    df = pd.read_excel("dati.xlsx", engine='openpyxl')
+except Exception as e:
+    print(f"Errore nel caricamento del file Excel: {e}")
+    df = None
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
@@ -26,4 +31,13 @@ def Controlla(username: str = Form(...), password: str = Form(...)):
     else:
         return {"messaggio": 0}
 
-
+@app.post("/loginPandas")
+def ControllaPassword(username: str = Form(...), password: str = Form(...)):
+    if df is None:
+        return {"messaggio": 0, "errore": "File dati non disponibile"}
+    # Filtra il DataFrame per trovare l'utente
+    risultato = df[(df['username'] == username) & (df['password'] == password)]
+    if not risultato.empty:
+        return {"messaggio": 1}
+    else:
+        return {"messaggio": 0}
