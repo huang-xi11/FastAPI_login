@@ -36,7 +36,7 @@ def ControllaPassword(username: str = Form(...), password: str = Form(...)):
     if df is None:
         return {"messaggio": 0, "errore": "File dati non disponibile"}
     # Filtra il DataFrame per trovare l'utente
-    risultato = df[(df['username'] == username) & (df['password'] == password)]
+    risultato = df[(df['username '] == username) & (df['password'] == password)]
     if not risultato.empty:
         return {"messaggio": 1}
     else:
